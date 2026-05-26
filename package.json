@@ -1,0 +1,16 @@
+{
+  "name": "central-vista",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.7.0",
+    "gsap": "^3.12.7"
+  }
+}

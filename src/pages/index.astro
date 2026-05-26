@@ -1,0 +1,377 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Wave from "../components/Wave.astro";
+
+const featured = [
+  { img: "/images/products/bbq.png", name: "BBQ", cat: "Smoky" },
+  { img: "/images/products/hot-spicy.png", name: "Hot & Spicy", cat: "Fiery" },
+  { img: "/images/products/sour-cream-onion.png", name: "Sour Cream & Onion", cat: "Creamy" },
+  { img: "/images/products/sweet-thai-chilli.png", name: "Sweet Thai Chilli", cat: "Sweet Heat" },
+];
+
+const credentials = ["Crinkle-Cut Since 1986", "100% Potato", "Halal Certified", "Made in Malaysia", "7 Bold Flavours"];
+
+const quality = [
+  { k: "Crinkle-cut crunch", v: "Thick ridges and a peel-on cut for maximum crunch in every bite." },
+  { k: "100% real potatoes", v: "Made from quality imported potatoes — never compromise on the chip." },
+  { k: "Halal & OEM ready", v: "Halal-certified production, with OEM and contract manufacturing available." },
+];
+---
+
+<Layout path="/">
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy" data-hero-stagger>
+        <span class="eyebrow">Crinkle-Cut Potato Chips · Since 1986</span>
+        <h1>Big crunch, <span class="accent">bold flavour.</span></h1>
+        <p class="hero-lead">
+          Wise Cottage Fries are thick, crinkle-cut potato chips made from 100% real potatoes —
+          loaded with bold Malaysian flavours and a crunch you can hear.
+        </p>
+        <div class="hero-actions">
+          <a href="/products" class="btn btn-primary">See the flavours
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="/contact" class="btn btn-ghost">Stock us / OEM</a>
+        </div>
+        <p class="hero-trust">A Malaysian snack-aisle favourite for nearly <strong>40 years</strong>.</p>
+      </div>
+
+      <div class="hero-art" data-hero-art>
+        <div class="hero-img-main">
+          <img src="/images/products/bbq.png" alt="Wise Cottage Fries BBQ" width="620" height="520" />
+        </div>
+        <figure class="hero-float">
+          <img src="/images/products/hot-spicy.png" alt="Wise Cottage Fries Hot & Spicy" width="280" height="200" />
+          <figcaption>Hot &amp; Spicy</figcaption>
+        </figure>
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span>Since<br><strong>1986</strong></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TICKER ============ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>BBQ</span><i></i><span>Hot &amp; Spicy</span><i></i><span>Sour Cream &amp; Onion</span><i></i>
+      <span>Sweet Thai Chilli</span><i></i><span>Tomato Ketchup</span><i></i><span>Onion Garlic</span><i></i>
+      <span>BBQ</span><i></i><span>Hot &amp; Spicy</span><i></i><span>Sour Cream &amp; Onion</span><i></i>
+      <span>Sweet Thai Chilli</span><i></i><span>Tomato Ketchup</span><i></i><span>Onion Garlic</span><i></i>
+    </div>
+  </div>
+
+  <!-- ============ BRANDS ============ -->
+  <section class="brands">
+    <div class="container">
+      <header class="sec-head" data-reveal>
+        <div>
+          <span class="eyebrow">The range</span>
+          <h2 class="section-title">Pick your crunch</h2>
+        </div>
+        <p class="section-lead">Savoury, spicy or sweet-and-tangy — every Wise Cottage Fries flavour rides on the same thick, crinkle-cut crunch.</p>
+      </header>
+
+      <div class="brand-grid" data-reveal-group>
+        <article class="brand-card">
+          <div class="brand-media"><img src="/images/products/bbq.png" alt="Wise BBQ chips" loading="lazy" /></div>
+          <div class="brand-body">
+            <span class="brand-tag tag-navy">Savoury</span>
+            <h3>Smoky &amp; savoury</h3>
+            <p>BBQ, Sour Cream &amp; Onion and Onion Garlic — the rich, moreish crowd-pleasers.</p>
+            <a href="/products" class="textlink">View range →</a>
+          </div>
+        </article>
+        <article class="brand-card">
+          <div class="brand-media"><img src="/images/products/hot-spicy.png" alt="Wise Hot & Spicy chips" loading="lazy" /></div>
+          <div class="brand-body">
+            <span class="brand-tag tag-red">Spicy &amp; Sweet</span>
+            <h3>Bring the heat</h3>
+            <p>Hot &amp; Spicy, Sweet Thai Chilli and tangy Tomato Ketchup — for those who like it bold.</p>
+            <a href="/products" class="textlink">View range →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED ============ -->
+  <section class="featured">
+    <div class="container">
+      <header class="sec-head row" data-reveal>
+        <div>
+          <span class="eyebrow">Best sellers</span>
+          <h2 class="section-title">Made to be enjoyed</h2>
+        </div>
+        <a href="/products" class="btn btn-ghost">All products
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </header>
+
+      <div class="prod-grid" data-reveal-group>
+        {featured.map((p) => (
+          <a href="/products" class="prod-card">
+            <div class="prod-media"><img src={p.img} alt={p.name} loading="lazy" /></div>
+            <div class="prod-info">
+              <span class="prod-cat">{p.cat}</span>
+              <h3>{p.name}</h3>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUALITY ============ -->
+  <section class="quality">
+    <div class="container quality-grid">
+      <div class="quality-media" data-reveal>
+        <div class="quality-frame">
+          <img src="/images/products/tomato-ketchup.png" alt="Wise Cottage Fries Tomato Ketchup" width="560" height="600" loading="lazy" data-parallax="-26" />
+        </div>
+        <div class="quality-stat" data-parallax="22">
+          <span class="num"><span data-count="38">0</span>+</span>
+          <span class="lbl">years of<br>crinkle-cut crunch</span>
+        </div>
+      </div>
+      <div class="quality-copy" data-reveal>
+        <span class="eyebrow">Why Wise</span>
+        <h2 class="section-title">The crunch that started in 1986</h2>
+        <p class="section-lead">Thick crinkle-cut chips from 100% real potatoes, fried crisp and seasoned bold. A Malaysian snack-aisle staple for almost four decades — and still made right here.</p>
+        <ul class="quality-list">
+          {quality.map((q) => (
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg>
+              <div><strong>{q.k}</strong><span>{q.v}</span></div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CERTIFICATIONS ============ -->
+  <section class="certs ribbon ribbon-cream">
+    <Wave side="top" />
+    <Wave side="bottom" />
+    <div class="ribbon-inner">
+      <div class="container">
+        <span class="eyebrow center certs-eyebrow">Certified &amp; trusted</span>
+      </div>
+      <div class="cert-belt">
+        <div class="cert-belt-track">
+          {[...credentials, ...credentials, ...credentials, ...credentials].map((c) => (
+            <div class="cert-plate"><span>{c}</span></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta ribbon">
+    <Wave side="top" />
+    <Wave side="bottom" />
+    <div class="container ribbon-inner">
+      <div class="cta-box" data-reveal>
+        <div class="cta-copy">
+          <h2>Get Wise on your shelves.</h2>
+          <p>Retailers, distributors and OEM partners — let's talk flavours, pack sizes and volumes.</p>
+        </div>
+        <a href="/contact" class="btn btn-primary">Get in touch
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .accent { color: var(--red); }
+  .textlink { font-weight: 600; color: var(--red); font-size: .95rem; }
+  .textlink:hover { color: var(--red-deep); }
+
+  /* ---------- HERO ---------- */
+  .hero { padding: 72px 0 90px; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2.9rem, 6vw, 4.6rem);
+    margin: 22px 0 22px;
+    letter-spacing: -0.04em;
+  }
+  .hero-lead { font-size: 1.15rem; color: var(--ink-soft); max-width: 500px; line-height: 1.65; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 32px 0 26px; }
+  .hero-trust { font-size: .95rem; color: var(--ink-soft); }
+  .hero-trust strong { color: var(--ink); font-weight: 700; }
+
+  .hero-art { position: relative; }
+  .hero-img-main {
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    aspect-ratio: 6 / 5;
+    background: var(--cream);
+  }
+  .hero-img-main img { width: 100%; height: 100%; object-fit: contain; padding: 24px; }
+  .hero-float {
+    position: absolute; left: -28px; bottom: -28px;
+    width: 200px; background: #fff;
+    border-radius: 16px; padding: 10px; box-shadow: var(--shadow-md);
+  }
+  .hero-float img { width: 100%; border-radius: 9px; aspect-ratio: 7/5; object-fit: contain; background: var(--cream); }
+  .hero-float figcaption { font-size: .76rem; font-weight: 600; color: var(--ink-soft); padding: 8px 4px 4px; }
+  .hero-badge {
+    position: absolute; top: -22px; right: -18px;
+    display: flex; align-items: center; gap: 10px;
+    background: var(--navy); color: #fff;
+    padding: 12px 16px; border-radius: 14px; box-shadow: var(--shadow-md);
+  }
+  .hero-badge span { font-family: var(--font-display); font-size: .72rem; line-height: 1.1; letter-spacing: .04em; }
+  .hero-badge strong { font-size: 1.05rem; }
+  .hero-badge .badge-dot { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; background: var(--gold); }
+
+  /* ---------- TICKER ---------- */
+  .ticker { background: var(--navy); overflow: hidden; padding: 15px 0; }
+  .ticker-track {
+    display: flex; align-items: center; gap: 28px; white-space: nowrap; width: max-content;
+    animation: scroll 28s linear infinite;
+  }
+  .ticker-track span {
+    font-family: var(--font-display); font-weight: 600; font-size: .92rem;
+    text-transform: uppercase; letter-spacing: .14em; color: rgba(255,255,255,.92);
+  }
+  .ticker-track i { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); display: inline-block; }
+  @keyframes scroll { to { transform: translateX(-50%); } }
+
+  /* ---------- shared section header ---------- */
+  .brands, .featured { padding: 100px 0 0; }
+  .sec-head { margin-bottom: 48px; }
+  .sec-head.row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+  .brands .sec-head { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: end; }
+  .brands .sec-head .section-lead { margin-top: 0; }
+
+  /* ---------- BRANDS ---------- */
+  .brand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .brand-card { display: block; }
+  .brand-media {
+    overflow: hidden; border-radius: 28px; background: var(--cream);
+    box-shadow: 0 0 0 rgba(36,26,23,0);
+    transition: transform .4s cubic-bezier(.2,.8,.25,1), box-shadow .4s ease;
+  }
+  .brand-media img { width: 100%; aspect-ratio: 16/10; object-fit: contain; padding: 22px; transition: transform .6s cubic-bezier(.2,.8,.25,1); }
+  .brand-card:hover .brand-media { transform: translateY(-8px); box-shadow: var(--shadow-md); }
+  .brand-card:hover .brand-media img { transform: scale(1.05); }
+  .brand-body { padding: 24px 6px 0; }
+  .brand-tag {
+    display: inline-block; font-weight: 600; font-size: .74rem;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .tag-navy { color: var(--navy); }
+  .tag-red { color: var(--red); }
+  .brand-body h3 { font-size: 1.6rem; margin-bottom: 10px; letter-spacing: -0.03em; }
+  .brand-body p { color: var(--ink-soft); font-size: 1rem; margin-bottom: 16px; max-width: 440px; }
+
+  /* ---------- FEATURED ---------- */
+  .prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px; }
+  .prod-card { display: block; }
+  .prod-media {
+    aspect-ratio: 1/1; overflow: hidden; border-radius: 26px;
+    background: var(--cream); box-shadow: 0 0 0 rgba(36,26,23,0);
+    transition: transform .4s cubic-bezier(.2,.8,.25,1), box-shadow .4s ease;
+  }
+  .prod-media img { width: 100%; height: 100%; object-fit: contain; padding: 16px; transition: transform .6s cubic-bezier(.2,.8,.25,1); }
+  .prod-card:hover .prod-media { transform: translateY(-12px); box-shadow: 0 26px 44px rgba(232,51,44,.18); }
+  .prod-card:hover .prod-media img { transform: scale(1.08); }
+  .prod-info { padding: 18px 6px 0; }
+  .prod-cat { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+  .prod-info h3 {
+    font-size: 1.08rem; margin-top: 6px; letter-spacing: -0.02em;
+    transition: color .25s ease; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .prod-info h3::after {
+    content: "→"; font-size: .95rem; opacity: 0; transform: translateX(-6px);
+    transition: opacity .25s ease, transform .25s ease; color: var(--red);
+  }
+  .prod-card:hover .prod-info h3 { color: var(--red); }
+  .prod-card:hover .prod-info h3::after { opacity: 1; transform: translateX(0); }
+
+  /* ---------- QUALITY ---------- */
+  .quality { padding: 110px 0 0; }
+  .quality-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; align-items: center; }
+  .quality-media { position: relative; }
+  .quality-frame { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 14/15; box-shadow: var(--shadow-md); background: var(--cream); }
+  .quality-frame img { width: 100%; height: 114%; object-fit: contain; object-position: center; padding: 28px; }
+  .quality-stat {
+    position: absolute; right: -22px; bottom: 32px; z-index: 2;
+    background: var(--red); color: #fff; border-radius: 16px;
+    padding: 18px 22px; box-shadow: 0 18px 40px rgba(218,33,40,.3);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .quality-stat .num { font-family: var(--font-display); font-weight: 700; font-size: 2.4rem; line-height: 1; }
+  .quality-stat .lbl { font-size: .82rem; line-height: 1.25; opacity: .95; }
+  .quality-copy .section-title { font-size: clamp(1.8rem, 3.6vw, 2.7rem); }
+  .quality-list { margin-top: 28px; display: grid; gap: 16px; }
+  .quality-list li { display: flex; gap: 14px; align-items: flex-start; }
+  .quality-list svg { width: 22px; height: 22px; color: var(--red); flex-shrink: 0; margin-top: 2px; }
+  .quality-list strong { display: block; font-family: var(--font-display); font-size: 1.02rem; margin-bottom: 2px; }
+  .quality-list span { color: var(--ink-soft); font-size: .96rem; }
+
+  /* ---------- CERTIFICATIONS (conveyor belt) ---------- */
+  .certs-eyebrow { display: flex; justify-content: center; margin-bottom: 40px; }
+  .cert-belt {
+    overflow: hidden;
+    padding: 26px 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  }
+  .cert-belt-track {
+    display: flex; gap: 26px; width: max-content;
+    animation: beltScroll 30s linear infinite;
+  }
+  .cert-belt:hover .cert-belt-track { animation-play-state: paused; }
+  .cert-plate {
+    flex: 0 0 auto; height: 60px;
+    background: #fff; border-radius: 999px; box-shadow: var(--shadow-sm);
+    display: grid; place-items: center; padding: 0 34px;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .cert-plate:hover { transform: translateY(-5px); box-shadow: 0 14px 28px rgba(36,26,23,.14); }
+  .cert-plate span { font-family: var(--font-display); font-weight: 700; font-size: .95rem; color: var(--ink); white-space: nowrap; }
+  .cert-plate span::before { content: "★"; color: var(--gold); margin-right: 9px; font-size: .85rem; }
+  @keyframes beltScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .cert-belt-track { animation: none; justify-content: center; }
+  }
+
+  /* ---------- CTA ---------- */
+  .cta-box {
+    display: flex; justify-content: space-between; align-items: center; gap: 36px; flex-wrap: wrap;
+  }
+  .cta-box h2 { color: #fff; font-size: clamp(1.8rem, 3.6vw, 2.7rem); margin-bottom: 12px; }
+  .cta-box p { color: rgba(255,255,255,.8); max-width: 460px; }
+  .cta-box .btn { flex-shrink: 0; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 960px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 70px; }
+    .hero-art { max-width: 520px; }
+    .quality-grid { grid-template-columns: 1fr; gap: 40px; }
+    .quality-media { max-width: 460px; }
+    .prod-grid { grid-template-columns: 1fr 1fr; }
+    .brand-grid { grid-template-columns: 1fr; }
+    .brands .sec-head { grid-template-columns: 1fr; gap: 14px; }
+  }
+  @media (max-width: 560px) {
+    .brand-card { grid-template-columns: 1fr; }
+    .brand-media img { min-height: 200px; }
+    .prod-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  }
+</style>

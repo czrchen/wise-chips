@@ -1,0 +1,120 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Wave from "../components/Wave.astro";
+
+const categories = [
+  {
+    name: "Savoury",
+    accent: "var(--red)",
+    items: [
+      { img: "/images/products/bbq.png", name: "BBQ", desc: "Smoky, sweet barbecue seasoning." },
+      { img: "/images/products/sour-cream-onion.png", name: "Sour Cream & Onion", desc: "Creamy, tangy and herby." },
+      { img: "/images/products/onion-garlic.png", name: "Onion Garlic", desc: "Savoury roasted onion and garlic." },
+    ],
+  },
+  {
+    name: "Spicy & Sweet",
+    accent: "var(--gold)",
+    items: [
+      { img: "/images/products/hot-spicy.png", name: "Hot & Spicy", desc: "A fiery chilli-spice kick." },
+      { img: "/images/products/sweet-thai-chilli.png", name: "Sweet Thai Chilli", desc: "Sweet, tangy Thai-style chilli." },
+      { img: "/images/products/tomato-ketchup.png", name: "Tomato Ketchup", desc: "Tangy tomato — a kids' favourite." },
+    ],
+  },
+];
+---
+
+<Layout path="/products" title="Products — Central Vista Snacks & Confectionery">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" data-reveal>Our products</span>
+      <h1 class="page-title" data-reveal>Every flavour, one crunch</h1>
+      <p class="page-lead" data-reveal>
+        Six bold Wise Cottage Fries flavours, all on our signature thick crinkle-cut chip.
+        Wholesale, retail and OEM supply welcome.
+      </p>
+    </div>
+  </section>
+
+  {categories.map((cat) => (
+    <section class="cat" style={`--c:${cat.accent}`}>
+      <div class="container">
+        <header class="cat-head" data-reveal>
+          <span class="cat-bar"></span>
+          <h2>{cat.name}</h2>
+          <span class="cat-count">{cat.items.length} products</span>
+        </header>
+        <div class="cat-grid" data-reveal-group>
+          {cat.items.map((it) => (
+            <article class="pcard">
+              <div class="pcard-media">
+                <img src={it.img} alt={it.name} loading="lazy" width="600" height="400" />
+              </div>
+              <div class="pcard-body">
+                <h3>{it.name}</h3>
+                <p>{it.desc}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="oem ribbon">
+    <Wave side="top" />
+    <Wave side="bottom" />
+    <div class="container ribbon-inner">
+      <div class="oem-box" data-reveal>
+        <div class="oem-copy">
+          <h2>OEM &amp; contract manufacturing</h2>
+          <p>Beyond our own brand, BJC Foods makes potato chips and snacks for partners — your recipe and packaging, our line. Let's talk.</p>
+        </div>
+        <a href="/contact" class="btn btn-primary">Talk to us
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero { padding: 64px 0 50px; }
+  .page-title { font-size: clamp(2.6rem, 6vw, 4.2rem); margin: 18px 0 18px; letter-spacing: -0.04em; }
+  .page-lead { font-size: 1.12rem; color: var(--ink-soft); max-width: 600px; line-height: 1.65; }
+
+  .cat { padding: 50px 0 0; }
+  .cat-head { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+  .cat-bar { width: 32px; height: 6px; border-radius: 6px; background: var(--c); }
+  .cat-head h2 { font-size: clamp(1.5rem, 3.2vw, 2rem); letter-spacing: -0.03em; }
+  .cat-count { margin-left: auto; font-size: .82rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+
+  .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px; }
+  .pcard { display: block; }
+  .pcard-media {
+    aspect-ratio: 1/1; overflow: hidden; border-radius: 26px; background: var(--cream);
+    box-shadow: 0 0 0 rgba(36,26,23,0);
+    transition: transform .4s cubic-bezier(.2,.8,.25,1), box-shadow .4s ease;
+  }
+  .pcard-media img { width: 100%; height: 100%; object-fit: contain; padding: 16px; transition: transform .6s cubic-bezier(.2,.8,.25,1); }
+  .pcard:hover .pcard-media { transform: translateY(-12px); box-shadow: 0 26px 44px rgba(232,51,44,.18); }
+  .pcard:hover .pcard-media img { transform: scale(1.08); }
+  .pcard-body { padding: 18px 6px 0; }
+  .pcard-body h3 { font-size: 1.05rem; letter-spacing: -0.02em; margin-bottom: 4px; transition: color .25s ease; }
+  .pcard:hover .pcard-body h3 { color: var(--red); }
+  .pcard-body p { color: var(--ink-soft); font-size: .9rem; line-height: 1.5; }
+
+  .oem-box {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 36px; flex-wrap: wrap;
+  }
+  .oem-box h2 { color: #fff; font-size: clamp(1.8rem, 3.6vw, 2.5rem); margin-bottom: 12px; }
+  .oem-box p { color: rgba(255,255,255,.8); max-width: 480px; }
+  .oem-box .btn { flex-shrink: 0; }
+
+  @media (max-width: 900px) { .cat-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) {
+    .cat-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .oem-box { padding: 40px 30px; }
+  }
+</style>

@@ -1,0 +1,168 @@
+/* ===========================================================
+   Wise Cottage Fries — bold modern snack brand
+   Red · chip yellow · espresso — crinkle-cut potato chips
+   =========================================================== */
+
+:root {
+  /* Brand — "navy" role = warm espresso for dark sections */
+  --navy:       #2A211C;   /* warm espresso (dark ribbons/footer) */
+  --navy-2:     #3C2F27;
+  --red:        #E8332C;   /* Wise red (primary accent / CTA) */
+  --red-deep:   #C5241E;
+  --gold:       #FFC21A;   /* chip yellow accent */
+
+  /* Surface + text */
+  --ink:        #241A17;   /* warm near-black text */
+  --ink-soft:   #6E5F58;
+  --paper:      #FFFBF2;   /* warm white page background */
+  --cream:      #FFF1D6;   /* warm yellow-cream alt section */
+  --white:      #FFFFFF;
+  --line:       rgba(36, 26, 23, 0.12);
+  --line-strong:rgba(36, 26, 23, 0.18);
+
+  --shadow-sm: 0 2px 8px rgba(36, 26, 23, 0.06);
+  --shadow-md: 0 14px 40px rgba(36, 26, 23, 0.12);
+
+  --r:    14px;
+  --r-lg: 24px;
+  --maxw: 1200px;
+
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+ul { list-style: none; }
+
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+section { position: relative; }
+
+/* ---------- Buttons ---------- */
+/* Hover "sweep" uses a clipped ::before overlay (no oversized-gradient edge bleed) */
+.btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .3s ease, color .3s ease, border-color .3s ease;
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: translateX(-101%);
+  transition: transform .45s cubic-bezier(.6,0,.2,1);
+}
+.btn:hover::before { transform: translateX(0); }
+.btn svg { width: 16px; height: 16px; transition: transform .35s cubic-bezier(.6,0,.2,1); }
+.btn:hover { transform: translateY(-2px); }
+.btn:hover svg { transform: translateX(5px); }
+
+/* Primary: red, sweeps to navy ink on hover */
+.btn-primary { background: var(--red); color: #fff; box-shadow: 0 8px 20px rgba(218,33,40,.20); }
+.btn-primary::before { background: var(--ink); }
+.btn-primary:hover { box-shadow: 0 12px 26px rgba(24,26,51,.22); }
+
+/* Dark (nav CTA): ink, sweeps to red on hover */
+.btn-dark { background: var(--ink); color: #fff; }
+.btn-dark::before { background: var(--red); }
+.btn-dark:hover { box-shadow: 0 12px 26px rgba(218,33,40,.24); }
+
+/* Ghost: outline, fills with ink on hover */
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.btn-ghost::before { background: var(--ink); }
+.btn-ghost:hover { color: #fff; border-color: var(--ink); }
+
+/* ---------- Eyebrow / section headers ---------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.eyebrow::before {
+  content: "";
+  width: 26px; height: 2px;
+  background: var(--red);
+  display: inline-block;
+}
+.eyebrow.center { justify-content: center; }
+
+.section-title {
+  font-size: clamp(2rem, 4.4vw, 3.1rem);
+  letter-spacing: -0.03em;
+}
+.section-lead {
+  font-size: 1.075rem;
+  color: var(--ink-soft);
+  max-width: 540px;
+  margin-top: 16px;
+  line-height: 1.65;
+}
+.center { text-align: center; }
+.center .section-lead { margin-left: auto; margin-right: auto; }
+
+/* ---------- Full-bleed wavy colour ribbons (section connectors) ---------- */
+.ribbon { position: relative; background: var(--navy); color: #fff; margin: 100px 0; }
+.ribbon-ink { background: var(--ink); }
+.ribbon-cream { background: var(--cream); color: var(--ink); }
+.ribbon-cream h2 { color: var(--ink); }
+.ribbon-inner { position: relative; z-index: 1; padding: 88px 0; }
+.ribbon h2 { color: #fff; }
+.wave { position: absolute; left: 0; width: 100%; line-height: 0; z-index: 2; pointer-events: none; }
+.wave svg { display: block; width: 100%; height: 56px; }
+.wave path { fill: var(--paper); }
+.wave-t { top: -1px; }
+.wave-b { bottom: -1px; transform: scaleY(-1); }
+
+/* ---------- Reveal base (GSAP toggles) ---------- */
+[data-reveal] { opacity: 0; transform: translateY(26px); }
+
+.grid { display: grid; gap: 24px; }
+
+@media (max-width: 720px) {
+  .container { padding: 0 20px; }
+}

@@ -1,0 +1,141 @@
+---
+const { path = "/" } = Astro.props;
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/products", label: "Products" },
+  { href: "/contact", label: "Contact" },
+];
+---
+
+<header class="nav" id="site-nav">
+  <div class="container nav-inner">
+    <a href="/" class="brand" aria-label="Wise Cottage Fries home">
+      <span class="brand-mark">Wise</span>
+      <span class="brand-text">Cottage&nbsp;Fries</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      {links.map((l) => (
+        <a href={l.href} class={path === l.href ? "active" : ""}>{l.label}</a>
+      ))}
+    </nav>
+
+    <a href="/contact" class="btn btn-dark nav-cta">Enquire</a>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="nav-mobile" id="nav-mobile">
+    {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    <a href="/contact" class="btn btn-primary">Enquire</a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(252, 251, 248, .8);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .25s ease, background .25s ease;
+  }
+  .nav.scrolled { border-bottom-color: var(--line); }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 74px;
+  }
+  .brand { display: flex; align-items: baseline; gap: 8px; }
+  .brand-mark {
+    font-family: var(--font-display); font-weight: 800; font-size: 1.5rem;
+    color: var(--red); letter-spacing: -0.03em; line-height: 1;
+    transition: transform .2s ease;
+  }
+  .brand:hover .brand-mark { transform: scale(1.05); }
+  .brand-text {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: .95rem;
+    letter-spacing: -0.01em;
+    color: var(--ink-soft);
+  }
+  .nav-links { display: flex; gap: 34px; }
+  .nav-links a {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    position: relative;
+    padding: 6px 0;
+    transition: color .18s ease;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+  .nav-links a.active::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: -1px;
+    height: 2px; border-radius: 2px;
+    background: var(--red);
+  }
+  .nav-cta { padding: 10px 20px; font-size: .9rem; }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none; border: none; cursor: pointer;
+    padding: 8px;
+  }
+  .nav-toggle span {
+    width: 26px; height: 3px; border-radius: 3px; background: var(--ink);
+    transition: transform .25s ease, opacity .2s ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  .nav-mobile {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 24px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s ease, padding .3s ease;
+  }
+  .nav-mobile a {
+    font-family: var(--font-display);
+    font-weight: 500;
+    padding: 12px 4px;
+    border-bottom: 1px solid rgba(42,37,64,.07);
+  }
+  .nav-mobile .btn { margin: 14px 0 22px; justify-content: center; }
+  .nav-mobile.open { max-height: 420px; padding-top: 8px; }
+
+  @media (max-width: 860px) {
+    .nav-links, .nav-cta { display: none; }
+    .nav-toggle { display: flex; }
+    .nav-mobile { display: flex; }
+  }
+</style>
+
+<script>
+  const nav = document.getElementById("site-nav");
+  const toggle = document.getElementById("nav-toggle");
+  const mobile = document.getElementById("nav-mobile");
+
+  window.addEventListener("scroll", () => {
+    nav?.classList.toggle("scrolled", window.scrollY > 10);
+  });
+
+  toggle?.addEventListener("click", () => {
+    const open = toggle.classList.toggle("open");
+    mobile?.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+  });
+</script>
