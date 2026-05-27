@@ -28,7 +28,7 @@ const categories = [
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" data-reveal>Our products</span>
-      <h1 class="page-title" data-reveal>Every flavour, one crunch</h1>
+      <h1 class="page-title" data-split>Every flavour, one crunch</h1>
       <p class="page-lead" data-reveal>
         Six bold Wise Cottage Fries flavours, all on our signature thick crinkle-cut chip.
         Wholesale, retail and OEM supply welcome.
@@ -46,13 +46,21 @@ const categories = [
         </header>
         <div class="cat-grid" data-reveal-group>
           {cat.items.map((it) => (
-            <article class="pcard">
-              <div class="pcard-media">
-                <img src={it.img} alt={it.name} loading="lazy" width="600" height="400" />
-              </div>
-              <div class="pcard-body">
-                <h3>{it.name}</h3>
-                <p>{it.desc}</p>
+            <article class="pcard" tabindex="0">
+              <div class="pcard-flip">
+                <div class="pcard-face pcard-front">
+                  <div class="pcard-media">
+                    <img src={it.img} alt={it.name} loading="lazy" width="600" height="400" />
+                  </div>
+                  <h3>{it.name}</h3>
+                  <span class="flip-hint">Hover for details ↻</span>
+                </div>
+                <div class="pcard-face pcard-back">
+                  <span class="back-cat">{cat.name}</span>
+                  <h3>{it.name}</h3>
+                  <p>{it.desc}</p>
+                  <span class="flip-hint light">↩ flip back</span>
+                </div>
               </div>
             </article>
           ))}
@@ -90,19 +98,40 @@ const categories = [
   .cat-count { margin-left: auto; font-size: .82rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
 
   .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px; }
-  .pcard { display: block; }
-  .pcard-media {
-    aspect-ratio: 1/1; overflow: hidden; border-radius: 26px; background: var(--cream);
-    box-shadow: 0 0 0 rgba(36,26,23,0);
-    transition: transform .4s cubic-bezier(.2,.8,.25,1), box-shadow .4s ease;
+
+  /* Flip card — front shows the product, back reveals the description */
+  .pcard { perspective: 1300px; outline: none; cursor: pointer; }
+  .pcard-flip {
+    position: relative; width: 100%; height: 360px;
+    transform-style: preserve-3d;
+    transition: transform .7s cubic-bezier(.2,.8,.25,1);
   }
-  .pcard-media img { width: 100%; height: 100%; object-fit: contain; padding: 16px; transition: transform .6s cubic-bezier(.2,.8,.25,1); }
-  .pcard:hover .pcard-media { transform: translateY(-12px); box-shadow: 0 26px 44px rgba(232,51,44,.18); }
-  .pcard:hover .pcard-media img { transform: scale(1.08); }
-  .pcard-body { padding: 18px 6px 0; }
-  .pcard-body h3 { font-size: 1.05rem; letter-spacing: -0.02em; margin-bottom: 4px; transition: color .25s ease; }
-  .pcard:hover .pcard-body h3 { color: var(--red); }
-  .pcard-body p { color: var(--ink-soft); font-size: .9rem; line-height: 1.5; }
+  .pcard:hover .pcard-flip,
+  .pcard:focus-within .pcard-flip { transform: rotateY(180deg); }
+  .pcard-face {
+    position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border-radius: 26px; overflow: hidden; display: flex; flex-direction: column;
+  }
+  .pcard-front {
+    background: var(--white); border: 1px solid var(--line); padding: 18px 18px 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .pcard-front .pcard-media { flex: 1; background: var(--cream); border-radius: 18px; overflow: hidden; }
+  .pcard-front .pcard-media img { width: 100%; height: 100%; object-fit: contain; padding: 16px; }
+  .pcard-front h3 { font-size: 1.05rem; letter-spacing: -0.02em; margin-top: 14px; }
+  .flip-hint { font-size: .68rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); margin-top: 6px; }
+  .flip-hint.light { color: rgba(255,255,255,.7); margin-top: 14px; }
+  .pcard-back {
+    background: var(--navy); color: #fff; transform: rotateY(180deg);
+    border-top: 4px solid var(--c); padding: 32px 28px; justify-content: center;
+  }
+  .back-cat { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 12px; }
+  .pcard-back h3 { color: #fff; font-size: 1.45rem; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .pcard-back p { color: rgba(255,255,255,.84); font-size: 1rem; line-height: 1.55; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pcard-flip { transition: none; }
+  }
 
   .oem-box {
     display: flex; justify-content: space-between; align-items: center;

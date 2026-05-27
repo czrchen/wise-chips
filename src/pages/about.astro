@@ -24,7 +24,7 @@ const certs = ["Halal Certified", "100% Potato", "Since 1986", "Made in Malaysia
     <div class="container about-hero-grid">
       <div class="about-hero-copy" data-reveal>
         <span class="eyebrow">About us</span>
-        <h1>The crinkle-cut chip Malaysia grew up snacking on.</h1>
+        <h1 data-split>The crinkle-cut chip Malaysia grew up snacking on.</h1>
         <p>Wise Cottage Fries is the flagship snack of BJC Foods (M) Sdn Bhd, made in Shah Alam since
           1986. Thick, crinkle-cut and bursting with bold flavour — plus OEM and contract manufacturing
           for partners who want the same quality crunch.</p>
@@ -51,13 +51,13 @@ const certs = ["Halal Certified", "100% Potato", "Since 1986", "Made in Malaysia
   </section>
 
   <section class="story">
-    <div class="container story-grid">
-      <article class="story-card" data-reveal>
+    <div class="container story-grid" data-scrub>
+      <article class="story-card">
         <span class="story-rule"></span>
         <h2>Our mission</h2>
         <p>To make the best-tasting crinkle-cut chip in Malaysia — big crunch, bold flavour, real potatoes, every pack.</p>
       </article>
-      <article class="story-card" data-reveal>
+      <article class="story-card">
         <span class="story-rule"></span>
         <h2>Our promise</h2>
         <p>Halal-certified, consistently made, and reliably supplied — for retail, distribution and OEM partners alike.</p>
@@ -69,7 +69,7 @@ const certs = ["Halal Certified", "100% Potato", "Since 1986", "Made in Malaysia
     <div class="container">
       <header class="sec-head center" data-reveal>
         <span class="eyebrow center">Our journey</span>
-        <h2 class="section-title">Crunching since 1986</h2>
+        <h2 class="section-title" data-split>Crunching since 1986</h2>
       </header>
       <div class="timeline" data-reveal-group>
         {timeline.map((t) => (

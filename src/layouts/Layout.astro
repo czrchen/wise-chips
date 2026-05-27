@@ -41,27 +41,69 @@ const {
 
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+      // Split a headline into word masks; returns the inner (animatable) spans.
+      // data-split-accent="N" paints the LAST N words in the brand accent colour
+      // (preserves accents that would otherwise be lost when flattening to text).
+      function splitWords(el: HTMLElement) {
+        if (el.dataset.splitDone) return el.querySelectorAll<HTMLElement>(".split-word > span");
+        const accentN = parseInt(el.dataset.splitAccent || "0", 10);
+        const words = (el.textContent || "").trim().split(/\s+/);
+        el.innerHTML = words
+          .map((w, i) => {
+            const acc = accentN > 0 && i >= words.length - accentN ? ' style="color:var(--red)"' : "";
+            return `<span class="split-word"><span${acc}>${w}</span></span>`;
+          })
+          .join(" ");
+        el.dataset.splitDone = "1";
+        return el.querySelectorAll<HTMLElement>(".split-word > span");
+      }
+
       function revealAll() {
         gsap.set("[data-reveal]", { opacity: 1, y: 0 });
         gsap.utils.toArray<HTMLElement>("[data-reveal-group]").forEach((g) =>
           gsap.set(g.children, { opacity: 1, y: 0 }));
+        gsap.utils.toArray<HTMLElement>("[data-scrub]").forEach((g) =>
+          gsap.set(g.children, { opacity: 1, y: 0 }));
+        document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => splitWords(el));
+        gsap.set("[data-split] .split-word > span", { yPercent: 0 });
+        document.querySelectorAll<SVGPathElement>("[data-wavedraw]").forEach((p) => {
+          p.style.strokeDashoffset = "0";
+        });
       }
 
       function initMotion() {
         if (reduce) { revealAll(); return; }
 
-        // Hero entrance — only on pages with a hero (avoids "target not found" warnings).
-        // Use fromTo (explicit end state) so elements always settle visible — gsap.from can
-        // "stick" at the from-state and leave the hero invisible.
+        // Pre-split every tagged headline so layout is stable before triggers fire.
+        document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => splitWords(el));
+
+        // Hero entrance — only on pages with a hero. fromTo guarantees a visible end state.
         if (document.querySelector("[data-hero-stagger]")) {
-          gsap.timeline({ defaults: { ease: "power3.out" } })
-            .fromTo("[data-hero-stagger] > *",
-              { y: 28, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.85, stagger: 0.09 })
-            .fromTo("[data-hero-art] > *",
-              { scale: 0.9, opacity: 0 },
-              { scale: 1, opacity: 1, duration: 0.9, stagger: 0.12, ease: "back.out(1.5)" }, "-=0.55");
+          const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+          tl.fromTo("[data-hero-stagger] > *:not([data-split])",
+            { y: 28, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.85, stagger: 0.09 });
+          const heroWords = document.querySelectorAll<HTMLElement>(
+            "[data-hero-stagger] [data-split] .split-word > span");
+          if (heroWords.length) {
+            tl.fromTo(heroWords, { yPercent: 110 },
+              { yPercent: 0, duration: 0.8, stagger: 0.06, ease: "power3.out" }, 0.12);
+          }
+          tl.fromTo("[data-hero-art] > *",
+            { scale: 0.9, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.9, stagger: 0.12, ease: "back.out(1.5)" }, "-=0.55");
         }
+
+        // Split headlines outside the hero — words slide up when scrolled into view.
+        gsap.utils.toArray<HTMLElement>("[data-split]").forEach((el) => {
+          if (el.closest("[data-hero-stagger]")) return;
+          const spans = el.querySelectorAll<HTMLElement>(".split-word > span");
+          gsap.set(spans, { yPercent: 110 });
+          ScrollTrigger.create({
+            trigger: el, start: "top 86%", once: true,
+            onEnter: () => gsap.to(spans, { yPercent: 0, duration: 0.75, ease: "power3.out", stagger: 0.06 }),
+          });
+        });
 
         // Scroll reveals
         gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
@@ -85,6 +127,16 @@ const {
               });
             },
           });
+        });
+
+        // Scrub-linked reveal — children ease in PROPORTIONALLY to scroll and roll
+        // back out when you scroll up (feels physically tied to the page).
+        gsap.utils.toArray<HTMLElement>("[data-scrub]").forEach((el) => {
+          const kids = el.children.length ? Array.from(el.children) : [el];
+          gsap.fromTo(kids,
+            { y: 50, opacity: 0 },
+            { y: 0, opacity: 1, stagger: 0.12, ease: "none",
+              scrollTrigger: { trigger: el, start: "top 88%", end: "top 42%", scrub: 0.8 } });
         });
 
         // Gentle continuous float (e.g. certification logos)
@@ -116,6 +168,48 @@ const {
             val: target, duration: 1.8, ease: "power2.out",
             scrollTrigger: { trigger: el, start: "top 92%", once: true },
             onUpdate: () => { el.textContent = Math.round(obj.val).toString(); },
+          });
+        });
+
+        // Pinned horizontal strip — the section pins and its track scrubs sideways
+        // as you scroll down. Used for best-seller line-ups with several images.
+        const pinWrap = document.querySelector<HTMLElement>("[data-pin-wrap]");
+        const pinTrack = document.querySelector<HTMLElement>("[data-pin-track]");
+        if (pinWrap && pinTrack && window.innerWidth > 760) {
+          const dist = () => Math.max(0, pinTrack.scrollWidth - pinWrap.clientWidth + 56);
+          gsap.to(pinTrack, {
+            x: () => -dist(), ease: "none",
+            scrollTrigger: {
+              trigger: pinWrap, start: "top top", end: () => "+=" + Math.max(1, dist()),
+              pin: true, scrub: 0.5, invalidateOnRefresh: true,
+            },
+          });
+        }
+
+        // Magnetic buttons — gently lean toward the cursor, spring back on leave.
+        document.querySelectorAll<HTMLElement>(".btn").forEach((btn) => {
+          const s = 0.3;
+          btn.addEventListener("mousemove", (e) => {
+            const r = btn.getBoundingClientRect();
+            gsap.to(btn, {
+              x: (e.clientX - (r.left + r.width / 2)) * s,
+              y: (e.clientY - (r.top + r.height / 2)) * s,
+              duration: 0.4, ease: "power3.out",
+            });
+          });
+          btn.addEventListener("mouseleave", () =>
+            gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.4)" }));
+        });
+
+        // Wave ribbon draws its gold edge as it enters view (redraws on scroll-up).
+        gsap.utils.toArray<SVGPathElement>("[data-wavedraw]").forEach((p) => {
+          const len = p.getTotalLength();
+          p.style.strokeDasharray = String(len);
+          gsap.set(p, { strokeDashoffset: len });
+          ScrollTrigger.create({
+            trigger: p, start: "top 96%",
+            onEnter: () => gsap.to(p, { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" }),
+            onLeaveBack: () => gsap.set(p, { strokeDashoffset: len }),
           });
         });
 

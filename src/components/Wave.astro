@@ -1,10 +1,12 @@
 ---
 // Wavy section divider. side="top" curves the section's top edge,
-// side="bottom" curves the bottom. Fill matches the adjacent (paper) colour.
+// side="bottom" curves the bottom. The fill matches the adjacent (paper) colour;
+// a gold stroke "draws" along the curve when it scrolls into view (data-wavedraw).
 const { side = "top" } = Astro.props;
 ---
 <div class={`wave wave-${side === "top" ? "t" : "b"}`} aria-hidden="true">
   <svg viewBox="0 0 1440 56" preserveAspectRatio="none">
-    <path d="M0,0 H1440 V20 C1180,52 940,2 720,24 C500,46 250,2 0,24 Z" />
+    <path class="wave-fill" d="M0,0 H1440 V20 C1180,52 940,2 720,24 C500,46 250,2 0,24 Z" />
+    <path class="wave-stroke" data-wavedraw d="M0,24 C250,2 500,46 720,24 C940,2 1180,52 1440,20" />
   </svg>
 </div>

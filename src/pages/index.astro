@@ -7,6 +7,8 @@ const featured = [
   { img: "/images/products/hot-spicy.png", name: "Hot & Spicy", cat: "Fiery" },
   { img: "/images/products/sour-cream-onion.png", name: "Sour Cream & Onion", cat: "Creamy" },
   { img: "/images/products/sweet-thai-chilli.png", name: "Sweet Thai Chilli", cat: "Sweet Heat" },
+  { img: "/images/products/onion-garlic.png", name: "Onion Garlic", cat: "Savoury" },
+  { img: "/images/products/tomato-ketchup.png", name: "Tomato Ketchup", cat: "Tangy" },
 ];
 
 const credentials = ["Crinkle-Cut Since 1986", "100% Potato", "Halal Certified", "Made in Malaysia", "7 Bold Flavours"];
@@ -24,7 +26,7 @@ const quality = [
     <div class="container hero-grid">
       <div class="hero-copy" data-hero-stagger>
         <span class="eyebrow">Crinkle-Cut Potato Chips · Since 1986</span>
-        <h1>Big crunch, <span class="accent">bold flavour.</span></h1>
+        <h1 data-split data-split-accent="2">Big crunch, bold flavour.</h1>
         <p class="hero-lead">
           Wise Cottage Fries are thick, crinkle-cut potato chips made from 100% real potatoes —
           loaded with bold Malaysian flavours and a crunch you can hear.
@@ -98,29 +100,36 @@ const quality = [
     </div>
   </section>
 
-  <!-- ============ FEATURED ============ -->
+  <!-- ============ FEATURED (pinned horizontal best-seller strip) ============ -->
   <section class="featured">
     <div class="container">
       <header class="sec-head row" data-reveal>
         <div>
           <span class="eyebrow">Best sellers</span>
-          <h2 class="section-title">Made to be enjoyed</h2>
+          <h2 class="section-title" data-split>Made to be enjoyed</h2>
         </div>
         <a href="/products" class="btn btn-ghost">All products
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </header>
+    </div>
 
-      <div class="prod-grid" data-reveal-group>
-        {featured.map((p) => (
-          <a href="/products" class="prod-card">
-            <div class="prod-media"><img src={p.img} alt={p.name} loading="lazy" /></div>
-            <div class="prod-info">
+    <div class="pin-wrap" data-pin-wrap>
+      <div class="pin-track" data-pin-track>
+        {featured.map((p, i) => (
+          <a href="/products" class="pin-card">
+            <span class="pin-index">{String(i + 1).padStart(2, "0")}</span>
+            <div class="pin-media"><img src={p.img} alt={p.name} loading="lazy" /></div>
+            <div class="pin-info">
               <span class="prod-cat">{p.cat}</span>
               <h3>{p.name}</h3>
             </div>
           </a>
         ))}
+        <a href="/products" class="pin-card pin-card-cta">
+          <span>See all<br>flavours</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
       </div>
     </div>
   </section>
@@ -141,7 +150,7 @@ const quality = [
         <span class="eyebrow">Why Wise</span>
         <h2 class="section-title">The crunch that started in 1986</h2>
         <p class="section-lead">Thick crinkle-cut chips from 100% real potatoes, fried crisp and seasoned bold. A Malaysian snack-aisle staple for almost four decades — and still made right here.</p>
-        <ul class="quality-list">
+        <ul class="quality-list" data-scrub>
           {quality.map((q) => (
             <li>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg>
@@ -303,6 +312,30 @@ const quality = [
   .prod-card:hover .prod-info h3 { color: var(--red); }
   .prod-card:hover .prod-info h3::after { opacity: 1; transform: translateX(0); }
 
+  /* ---------- FEATURED — pinned horizontal strip ---------- */
+  .pin-wrap { height: 80vh; min-height: 480px; display: flex; align-items: center; overflow: hidden; }
+  .pin-track { display: flex; gap: 30px; padding: 0 max(28px, calc((100vw - var(--maxw)) / 2 + 28px)); will-change: transform; }
+  .pin-card {
+    flex: 0 0 auto; width: 320px; position: relative;
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg);
+    box-shadow: var(--shadow-sm); padding: 30px 28px 26px; overflow: hidden;
+    transition: transform .4s cubic-bezier(.2,.8,.25,1), box-shadow .4s ease;
+  }
+  .pin-card:hover { transform: translateY(-10px); box-shadow: 0 26px 50px rgba(232,51,44,.18); }
+  .pin-index { font-family: var(--font-display); font-weight: 800; font-size: 1rem; color: var(--line-strong); }
+  .pin-media { aspect-ratio: 5/4; background: var(--cream); border-radius: 18px; margin: 14px 0 18px; overflow: hidden; }
+  .pin-media img { width: 100%; height: 100%; object-fit: contain; padding: 18px; transition: transform .6s cubic-bezier(.2,.8,.25,1); }
+  .pin-card:hover .pin-media img { transform: scale(1.07); }
+  .pin-info .prod-cat { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+  .pin-info h3 { font-size: 1.25rem; margin-top: 6px; letter-spacing: -0.02em; }
+  .pin-card-cta {
+    width: 230px; background: var(--navy); color: #fff; display: flex; flex-direction: column;
+    justify-content: center; gap: 16px;
+  }
+  .pin-card-cta span { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; line-height: 1.1; }
+  .pin-card-cta svg { width: 26px; height: 26px; color: var(--gold); }
+  .pin-card-cta:hover { background: var(--navy-2); }
+
   /* ---------- QUALITY ---------- */
   .quality { padding: 110px 0 0; }
   .quality-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; align-items: center; }
@@ -368,6 +401,12 @@ const quality = [
     .prod-grid { grid-template-columns: 1fr 1fr; }
     .brand-grid { grid-template-columns: 1fr; }
     .brands .sec-head { grid-template-columns: 1fr; gap: 14px; }
+  }
+  /* On phones the section doesn't pin (JS-guarded) — let the strip swipe instead. */
+  @media (max-width: 760px) {
+    .pin-wrap { height: auto; min-height: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 6px 0 20px; scroll-snap-type: x mandatory; }
+    .pin-track { padding: 0 20px; }
+    .pin-card { width: 78vw; max-width: 320px; scroll-snap-align: center; }
   }
   @media (max-width: 560px) {
     .brand-card { grid-template-columns: 1fr; }
