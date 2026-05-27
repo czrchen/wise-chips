@@ -180,7 +180,7 @@ const {
           gsap.to(pinTrack, {
             x: () => -dist(), ease: "none",
             scrollTrigger: {
-              trigger: pinWrap, start: "top top", end: () => "+=" + Math.max(1, dist()),
+              trigger: pinWrap, start: "center center", end: () => "+=" + Math.max(1, dist()),
               pin: true, scrub: 0.5, invalidateOnRefresh: true,
             },
           });

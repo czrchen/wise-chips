@@ -313,10 +313,10 @@ const quality = [
   .prod-card:hover .prod-info h3::after { opacity: 1; transform: translateX(0); }
 
   /* ---------- FEATURED — pinned horizontal strip ---------- */
-  .pin-wrap { height: 74vh; min-height: 520px; display: flex; align-items: center; overflow: hidden; }
-  .pin-track { display: flex; gap: 30px; padding: 0 max(28px, calc((100vw - var(--maxw)) / 2 + 28px)); will-change: transform; }
+  .pin-wrap { height: min(72vh, 560px); display: flex; align-items: stretch; overflow: hidden; }
+  .pin-track { display: flex; align-items: stretch; gap: 30px; padding: 0 max(28px, calc((100vw - var(--maxw)) / 2 + 28px)); will-change: transform; }
   .pin-card {
-    flex: 0 0 auto; width: 330px; height: min(64vh, 540px); position: relative;
+    flex: 0 0 auto; width: 330px; position: relative;
     display: flex; flex-direction: column;
     background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg);
     box-shadow: var(--shadow-sm); padding: 26px 28px 24px; overflow: hidden;
@@ -330,7 +330,7 @@ const quality = [
   .pin-info .prod-cat { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
   .pin-info h3 { font-size: 1.3rem; margin-top: 6px; letter-spacing: -0.02em; }
   .pin-card-cta {
-    width: 250px; height: min(64vh, 540px); background: var(--navy); color: #fff; display: flex; flex-direction: column;
+    width: 250px; background: var(--navy); color: #fff; display: flex; flex-direction: column;
     justify-content: center; gap: 16px;
   }
   .pin-card-cta span { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; line-height: 1.1; }
