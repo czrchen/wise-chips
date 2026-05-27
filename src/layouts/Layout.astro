@@ -160,9 +160,8 @@ const {
           });
         });
 
-        // Count-up stats — fire when the number is properly in view (not while it's
-        // still near the bottom edge), and replay on re-entry so a long pinned section
-        // above can't make it finish counting before you ever see it.
+        // Count-up stats — fire once when the number is properly in view, then leave
+        // it at the final value (scrolling back up won't reset it to zero).
         gsap.utils.toArray<HTMLElement>("[data-count]").forEach((el) => {
           const target = Number(el.dataset.count || "0");
           const obj = { val: 0 };
@@ -171,9 +170,8 @@ const {
             onUpdate: () => { el.textContent = Math.round(obj.val).toString(); },
           });
           ScrollTrigger.create({
-            trigger: el, start: "top 72%",
-            onEnter: () => tween.restart(),
-            onLeaveBack: () => { tween.pause(0); el.textContent = "0"; },
+            trigger: el, start: "top 72%", once: true,
+            onEnter: () => tween.play(),
           });
         });
 
