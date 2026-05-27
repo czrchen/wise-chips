@@ -160,14 +160,20 @@ const {
           });
         });
 
-        // Count-up stats
+        // Count-up stats — fire when the number is properly in view (not while it's
+        // still near the bottom edge), and replay on re-entry so a long pinned section
+        // above can't make it finish counting before you ever see it.
         gsap.utils.toArray<HTMLElement>("[data-count]").forEach((el) => {
           const target = Number(el.dataset.count || "0");
           const obj = { val: 0 };
-          gsap.to(obj, {
-            val: target, duration: 1.8, ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 92%", once: true },
+          const tween = gsap.to(obj, {
+            val: target, duration: 1.6, ease: "power2.out", paused: true,
             onUpdate: () => { el.textContent = Math.round(obj.val).toString(); },
+          });
+          ScrollTrigger.create({
+            trigger: el, start: "top 72%",
+            onEnter: () => tween.restart(),
+            onLeaveBack: () => { tween.pause(0); el.textContent = "0"; },
           });
         });
 
