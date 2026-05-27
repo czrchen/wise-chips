@@ -188,6 +188,9 @@ const {
             scrollTrigger: {
               trigger: pinWrap, start: "center center", end: () => "+=" + Math.max(1, dist()),
               pin: true, scrub: 0.5, invalidateOnRefresh: true,
+              // Refresh the pin (and its spacer) BEFORE other triggers so sections
+              // below it measure their start positions against the post-pin layout.
+              refreshPriority: 1,
             },
           });
         }
