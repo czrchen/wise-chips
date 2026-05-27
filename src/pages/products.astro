@@ -1,6 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Wave from "../components/Wave.astro";
 
 const categories = [
   {
@@ -69,21 +68,6 @@ const categories = [
     </section>
   ))}
 
-  <section class="oem ribbon">
-    <Wave side="top" />
-    <Wave side="bottom" />
-    <div class="container ribbon-inner">
-      <div class="oem-box" data-reveal>
-        <div class="oem-copy">
-          <h2>OEM &amp; contract manufacturing</h2>
-          <p>Beyond our own brand, BJC Foods makes potato chips and snacks for partners — your recipe and packaging, our line. Let's talk.</p>
-        </div>
-        <a href="/contact" class="btn btn-primary">Talk to us
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-    </div>
-  </section>
 </Layout>
 
 <style>
@@ -133,17 +117,8 @@ const categories = [
     .pcard-flip { transition: none; }
   }
 
-  .oem-box {
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 36px; flex-wrap: wrap;
-  }
-  .oem-box h2 { color: #fff; font-size: clamp(1.8rem, 3.6vw, 2.5rem); margin-bottom: 12px; }
-  .oem-box p { color: rgba(255,255,255,.8); max-width: 480px; }
-  .oem-box .btn { flex-shrink: 0; }
-
   @media (max-width: 900px) { .cat-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) {
     .cat-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
-    .oem-box { padding: 40px 30px; }
   }
 </style>
