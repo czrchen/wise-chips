@@ -69,6 +69,7 @@ const {
         document.querySelectorAll<SVGPathElement>("[data-wavedraw]").forEach((p) => {
           p.style.strokeDashoffset = "0";
         });
+        document.querySelectorAll<HTMLElement>("[data-timeline] > *").forEach((el) => el.classList.add("tl-in"));
       }
 
       function initMotion() {
@@ -137,6 +138,15 @@ const {
             { y: 50, opacity: 0 },
             { y: 0, opacity: 1, stagger: 0.12, ease: "none",
               scrollTrigger: { trigger: el, start: "top 88%", end: "top 42%", scrub: 0.8 } });
+        });
+
+        // Reversible timeline reveal — items slide in on scroll-down, retract on scroll-up (CSS .tl-in).
+        gsap.utils.toArray<HTMLElement>("[data-timeline] > *").forEach((el) => {
+          ScrollTrigger.create({
+            trigger: el, start: "top 86%",
+            onEnter: () => el.classList.add("tl-in"),
+            onLeaveBack: () => el.classList.remove("tl-in"),
+          });
         });
 
         // Gentle continuous float (e.g. certification logos)
